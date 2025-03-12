@@ -1,5 +1,4 @@
 # Animatica
-___
 
 ## Table of Contents
 
@@ -10,14 +9,13 @@ ___
 
 
 ## Overview
-___
+
 ***Animatica*** is my diploma project that generates videos from text and 
 images using neural networks. It automates animation creation with image generation,
 image-to-video conversion, and post-processing.
 
 
 ## Requirements⚠️
-___
 
 - Python 3.8+
 - PyTorch
@@ -26,7 +24,6 @@ ___
 
 
 ## Deploying on Local
-___
 
 **Step 1.**
 
@@ -60,7 +57,6 @@ streamlit run main.py
 
 
 ## Deploying via Docker
-___
 
 Below are the basic commands to manage docker.
 
