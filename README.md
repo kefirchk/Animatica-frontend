@@ -1,4 +1,4 @@
-# Animatica
+# Animatica-frontend
 
 ## Table of Contents
 
