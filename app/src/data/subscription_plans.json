@@ -1,0 +1,29 @@
+{
+    "Basic": {
+        "Price": "$0.99",
+        "Discount": "Discount 20%",
+        "Features": [
+            "Without limits",
+            "High quality",
+            "Instant access"
+        ]
+    },
+    "Standard": {
+        "Price": "$7.99",
+        "Discount": "Discount 30%",
+        "Features": [
+            "Up to 100 queries",
+            "Super price",
+            "Instant access"
+        ]
+    },
+    "Premium": {
+        "Price": "$25.99",
+        "Discount": "Discount 40%",
+        "Features": [
+            "Up to 500 queries",
+            "Instant access",
+            "Exclusive possibilities"
+        ]
+    }
+}
