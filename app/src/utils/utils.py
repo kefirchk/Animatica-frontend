@@ -1,7 +1,7 @@
 import io
 
 import streamlit as st
-from PIL.Image import Image
+from PIL import Image
 
 
 def load_image():
