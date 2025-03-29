@@ -37,6 +37,3 @@ class CustomLogger:
 
     def critical(self, message: str):
         self.logger.critical(f"{Fore.MAGENTA}{message}{Style.RESET_ALL}")
-
-
-logger = CustomLogger(name="Animatica Frontend Logger")
