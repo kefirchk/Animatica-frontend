@@ -1,20 +1,33 @@
 import streamlit as st
-from utils.resource_loader import ResourceLoader
+from core.api_config import APIConfig
+from services.auth import AuthService
+from services.resource import ResourceService
 
-st.set_page_config(page_title="Pricing - Animatica", layout="centered")
+# st.set_page_config(page_title="Pricing - Animatica", layout="centered")
 
-# Load resources
-ResourceLoader.load_styles("pricing.css")
-plans = ResourceLoader.load_json("subscription_plans.json")
+# plans = ResourceService.load_json("subscription_plans.json")
 
-# Load templates
-header_template = ResourceLoader.load_template("pricing/header.html")
-plan_card_template = ResourceLoader.load_template("pricing/plan_card.html")
-selection_template = ResourceLoader.load_template("pricing/selection_message.html")
+response = AuthService.make_authenticated_request("GET", f"{APIConfig().BASE_URL}/api/v0/subscriptions/suggested")
+subscriptions_data = response.json().get("subscriptions", [])
+plans = {
+    sub["subscription_type_name"].capitalize(): {
+        "Price": f"${sub['pricing']['price']}",
+        "Discount": f"Discount {sub['pricing']['discount']}%",
+        "Features": sub["features"],
+        "Credits": sub.get("total_credits", "Unlimited"),
+        "Duration": f"{sub.get('duration_days', '')} days" if sub.get("duration_days") else "Unlimited",
+    }
+    for sub in subscriptions_data
+}
+
+# Load styles and templates
+ResourceService.load_styles("pricing.css")
+header_template = ResourceService.load_template("pricing/header.html")
+plan_card_template = ResourceService.load_template("pricing/plan_card.html")
+selection_template = ResourceService.load_template("pricing/selection_message.html")
 
 # Header
 st.markdown(header_template, unsafe_allow_html=True)
-
 
 # Init of Selected Plan in session_state
 if "selected_plan" not in st.session_state:
