@@ -1,10 +1,10 @@
 import streamlit as st
-from utils.resource_loader import ResourceLoader
+from services.resource import ResourceService
 
-st.set_page_config(page_title="About - Animatica", layout="centered")
+# st.set_page_config(page_title="About - Animatica", layout="centered")
 
 context = {
-    "image_base64": ResourceLoader.load_image("animatica_about.svg"),
+    "image_base64": ResourceService.load_image("animatica_about.svg"),
     "email_link": "mailto:prostolex2004@mail.ru",
     "telegram_link": "https://t.me/keffirchk",
     "linkedin_link": "https://www.linkedin.com/in/alexey-klimovich-30744b249/",
@@ -12,6 +12,6 @@ context = {
     "developer_info": "4th-year Computer Science student specializing in Computing Machines, Systems, and Networks",
 }
 
-ResourceLoader.load_styles("about.css")
-template = ResourceLoader.load_template("about/about.html")
+ResourceService.load_styles("about.css")
+template = ResourceService.load_template("about/about.html")
 st.markdown(template.format(**context), unsafe_allow_html=True)

@@ -1,17 +1,19 @@
 import io
+import logging
 
 import streamlit as st
 from httpx import ConnectError
-from utils import logger
-from utils.resource_loader import ResourceLoader
+from services.resource import ResourceService
 
-st.set_page_config(page_title="Home - Animatica", layout="centered")
+logger = logging.getLogger(__name__)
+
+# st.set_page_config(page_title="Home - Animatica", layout="centered")
 
 # Load styles and templates
-ResourceLoader.load_styles("home.css")
-subscription_template = ResourceLoader.load_template("home/subscription_required.html")
-header_template = ResourceLoader.load_template("home/generation_header.html")
-result_template = ResourceLoader.load_template("home/result_container.html")
+ResourceService.load_styles("home.css")
+subscription_template = ResourceService.load_template("home/subscription_required.html")
+header_template = ResourceService.load_template("home/generation_header.html")
+result_template = ResourceService.load_template("home/result_container.html")
 
 # Check subscription
 if "trial" not in st.session_state and "subscribe" not in st.session_state:
