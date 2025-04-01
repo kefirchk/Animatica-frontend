@@ -46,26 +46,19 @@ source venv/Scripts/activate
 **Step 2.**
 
 ```bash
-pip install -r requirements.txt
+pip install -r app/requirements.txt
 ```
 
 **Step 3.**
 
 ```bash
-streamlit run main.py
+streamlit run app/src/main.py
 ```
 
 
 ## Deploying via Docker
 
 Below are the basic commands to manage docker.
-
-###### Image creating
-
-```bash
-docker build . --tag animatica
-docker run -p 8080:8080 animatica
-```
 
 ###### Docker-compose
 
