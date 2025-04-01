@@ -16,6 +16,7 @@ plans = {
         "Features": sub["features"],
         "Credits": sub.get("total_credits", "Unlimited"),
         "Duration": f"{sub.get('duration_days', '')} days" if sub.get("duration_days") else "Unlimited",
+        "StripeLink": sub["stripe_link"],
     }
     for sub in subscriptions_data
 }
@@ -29,7 +30,12 @@ selection_template = ResourceService.load_template("pricing/selection_message.ht
 # Header
 st.markdown(header_template, unsafe_allow_html=True)
 
-# Init of Selected Plan in session_state
+# Check if plans exist
+if not plans:
+    st.warning("No subscription plans available at the moment.")
+    st.stop()
+
+# Init selected plan
 if "selected_plan" not in st.session_state:
     st.session_state.selected_plan = list(plans.keys())[0]
 
@@ -41,46 +47,50 @@ def select_plan(plan_name):
 
 # Container for Plan Cards
 with st.container():
-    cols = st.columns(len(plans))
-    for col, plan_name in zip(cols, plans.keys()):
-        with col:
-            plan = plans[plan_name]
-            is_selected = st.session_state.selected_plan == plan_name
+    num_columns = min(3, len(plans))
+    cols = st.columns(num_columns)
+    plan_names = list(plans.keys())
 
-            # Plan Select Button
-            if st.button(
-                plan_name,
-                key=f"plan_btn_{plan_name}",
-                type="primary" if is_selected else "secondary",
-                use_container_width=True,
-                on_click=select_plan,
-                args=(plan_name,),
-            ):
-                pass
+    for i in range(num_columns):
+        with cols[i]:
+            if i < len(plan_names):
+                plan_name = plan_names[i]
+                plan = plans[plan_name]
+                is_selected = st.session_state.selected_plan == plan_name
 
-            # Show Plan Card
-            features_html = "".join(f'<li class="plan-feature">{feature}</li>' for feature in plan["Features"])
+                # Plan Select Button
+                if st.button(
+                    plan_name,
+                    key=f"plan_btn_{plan_name}",
+                    type="primary" if is_selected else "secondary",
+                    use_container_width=True,
+                    on_click=select_plan,
+                    args=(plan_name,),
+                ):
+                    pass
 
-            card_html = plan_card_template.format(
-                card_class="plan-card selected" if is_selected else "plan-card",
-                plan_name=plan_name,
-                price=plan["Price"],
-                discount=plan["Discount"],
-                features=features_html,
-            )
+                # Show Plan Card
+                features_html = "".join(f'<li class="plan-feature">{feature}</li>' for feature in plan["Features"])
 
-            st.markdown(card_html, unsafe_allow_html=True)
+                card_html = plan_card_template.format(
+                    card_class="plan-card selected" if is_selected else "plan-card",
+                    plan_name=plan_name,
+                    price=plan["Price"],
+                    discount=plan["Discount"],
+                    features=features_html,
+                )
+                st.markdown(card_html, unsafe_allow_html=True)
 
-
-# Select Message
+# Select Message and Subscribe Button
 if st.session_state.selected_plan:
     st.markdown(selection_template.format(selected_plan=st.session_state.selected_plan), unsafe_allow_html=True)
 
-    # Subscription Button
-    if st.button(
-        "Subscribe Now",
-        type="primary",
-        help=f"Subscribe to {st.session_state.selected_plan} plan",
-        use_container_width=True,
-    ):
-        st.success(f"You have successfully subscribed to {st.session_state.selected_plan}!")
+    stripe_link = plans[st.session_state.selected_plan]["StripeLink"]
+    st.markdown(
+        f"""
+        <div style="display: flex; justify-content: center; margin: 20px 0;">
+            <a href="{stripe_link}" class="button">Subscribe Now</a>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
