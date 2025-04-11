@@ -52,7 +52,8 @@ pip install -r app/requirements.txt
 **Step 3.**
 
 ```bash
-streamlit run app/src/main.py
+cd app
+streamlit run src/main.py
 ```
 
 
@@ -60,9 +61,12 @@ streamlit run app/src/main.py
 
 Below are the basic commands to manage docker.
 
-###### Docker-compose
-
+###### Build image
 ```bash
-docker-compose up --build
-docker-compsose down
+docker build -f app/Dockerfile -t animatica-frontend .
+```
+
+###### Run container
+```bash
+docker run -p 8501:8501 --name ui animatica-frontend
 ```
