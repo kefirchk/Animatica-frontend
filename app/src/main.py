@@ -18,5 +18,5 @@ else:
 
 
 # Setting up Sidebar
-st.logo("app/src/assets/images/animatica_logo.png", size="large")
+st.logo("src/assets/images/animatica_logo.png", size="large")
 st.sidebar.markdown("Made with ❤️ by [kefirchk](https://github.com/kefirchk)")
