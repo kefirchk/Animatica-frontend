@@ -33,7 +33,8 @@ st.markdown(header_template, unsafe_allow_html=True)
 # Check if plans exist
 if not plans:
     st.warning("No subscription plans available at the moment.")
-    st.stop()
+    # st.stop()
+    st.switch_page("views/auth.py")
 
 # Init selected plan
 if "selected_plan" not in st.session_state:
@@ -89,7 +90,11 @@ if st.session_state.selected_plan:
     st.markdown(
         f"""
         <div style="display: flex; justify-content: center; margin: 20px 0;">
-            <a href="{stripe_link}" class="button">Subscribe Now</a>
+            <form action="{stripe_link}" method="GET" target="_self">
+                <button type="submit" class="button">
+                    Subscribe Now
+                </button>
+            </form>
         </div>
         """,
         unsafe_allow_html=True,
