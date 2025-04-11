@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class APIConfig(BaseSettings):
-    BASE_URL: str = Field("http://localhost:8080", alias="API_URL")
+    BASE_URL: str = Field(..., alias="API_URL")
+    TERMS_OF_SERVICE_URL: str = Field(..., alias="TERMS_OF_SERVICE_URL")
 
-    model_config = SettingsConfigDict(env_file='env/api.env')
-
+    model_config = SettingsConfigDict(env_file="../env/api.env")

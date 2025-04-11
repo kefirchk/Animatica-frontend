@@ -1,4 +1,5 @@
 import streamlit as st
+from core.api_config import APIConfig
 from services.auth import AuthService
 from services.resource import ResourceService
 
@@ -20,7 +21,7 @@ if "register_success" not in st.session_state:
     st.session_state.register_success = ""
 
 # Terms of Service content
-TERMS_OF_SERVICE = """
+TERMS_OF_SERVICE = f"""
 **Terms of Service**
 
 By creating an account, you agree to our Terms of Service and Privacy Policy:
@@ -31,7 +32,7 @@ By creating an account, you agree to our Terms of Service and Privacy Policy:
 4. We may terminate accounts that violate our terms
 5. All content you generate must comply with our community guidelines
 
-[View full Terms of Service](https://example.com/terms)
+[View full Terms of Service]({APIConfig().TERMS_OF_SERVICE_URL})
 """
 
 # Main Interface
