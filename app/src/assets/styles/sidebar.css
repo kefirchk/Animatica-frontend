@@ -1,0 +1,33 @@
+.credit-card {
+    padding: 1rem;
+    margin: 0.5rem 0 1.5rem;
+    border-radius: 8px;
+    background: #f8fafc;
+    border-left: 4px solid #4ade80;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.credit-card-header {
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.credit-card-value {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.credit-amount {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.credit-label {
+    font-size: 1rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
