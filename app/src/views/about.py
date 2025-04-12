@@ -1,8 +1,6 @@
 import streamlit as st
 from services.resource import ResourceService
 
-# st.set_page_config(page_title="About - Animatica", layout="centered")
-
 context = {
     "image_base64": ResourceService.load_image("animatica_about.svg"),
     "email_link": "mailto:prostolex2004@mail.ru",

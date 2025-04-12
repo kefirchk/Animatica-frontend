@@ -1,6 +1,5 @@
 import streamlit as st
 
-# --- PAGE SETUP ---
 auth_page = st.Page(
     page="views/auth.py",
     title="Authentication",

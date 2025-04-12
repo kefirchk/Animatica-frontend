@@ -1,22 +1,46 @@
 import streamlit as st
 from services.auth import AuthService
+from services.payment import PaymentService
+from services.resource import ResourceService
 from views import about_page, auth_page, home_page, pricing_page
 
-# st.set_page_config(page_title="Animatica - Auth", layout="centered")
-
-AuthService.check_auth()
-
-# Navigation menu
-if st.session_state.logged_in:
-    pg = st.navigation(pages=[home_page, pricing_page, about_page])
-    pg.run()
-    if st.sidebar.button("Logout", help="Logout from your account", type="primary", use_container_width=True):
-        AuthService.logout()
-else:
-    pg = st.navigation(pages=[auth_page])
-    auth_page.run()
+ResourceService.load_styles("sidebar.css")
+credit_card_template = ResourceService.load_template("sidebar/credit_card.html")
 
 
-# Setting up Sidebar
-st.logo("src/assets/images/animatica_logo.png", size="large")
-st.sidebar.markdown("Made with ❤️ by [kefirchk](https://github.com/kefirchk)")
+def render_sidebar():
+    with st.sidebar:
+        st.logo("src/assets/images/animatica_logo.png", size="large")
+
+        if st.session_state.logged_in:
+            remaining_queries = PaymentService.get_query_balance()
+            st.markdown(credit_card_template.format(credits=remaining_queries), unsafe_allow_html=True)
+
+            if st.button(
+                "Logout",
+                help="Logout from your account",
+                type="primary",
+                use_container_width=True,
+                key="sidebar_logout",
+            ):
+                AuthService.logout()
+
+        st.markdown("---")
+        st.caption("Made with ❤️ by [kefirchk](https://github.com/kefirchk)")
+
+
+def main():
+    AuthService.check_auth()
+
+    if st.session_state.logged_in:
+        pg = st.navigation(pages=[home_page, pricing_page, about_page])
+        pg.run()
+    else:
+        st.navigation(pages=[auth_page])
+        auth_page.run()
+
+    render_sidebar()
+
+
+if __name__ == "__main__":
+    main()
