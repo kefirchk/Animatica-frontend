@@ -1,5 +1,4 @@
 import base64
-import json
 from pathlib import Path
 
 import streamlit as st
@@ -25,9 +24,3 @@ class ResourceService:
         image_path = Path(__file__).parent.parent / "assets" / "images" / image_name
         with open(image_path, "rb") as f:
             return base64.b64encode(f.read()).decode()
-
-    @staticmethod
-    def load_json(filename: str):
-        file_path = Path(__file__).parent.parent / "data" / filename
-        with open(file_path, encoding="utf-8") as f:
-            return json.loads(f.read())
