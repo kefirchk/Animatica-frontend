@@ -1,14 +1,14 @@
 import requests
 import streamlit as st
-from core.api_config import APIConfig
-from services.auth_cookie import AuthCookieService
+from configs.api_config import APIConfig
+from services.cookie import CookieService
 
 
 class AuthService:
     @staticmethod
     def check_auth():
         if "logged_in" not in st.session_state:
-            auth_data = AuthCookieService.get_auth_cookies()
+            auth_data = CookieService.get_auth_cookies()
             if auth_data:
                 try:
                     st.session_state.update(
@@ -20,7 +20,7 @@ class AuthService:
                         }
                     )
                 except:
-                    AuthCookieService.clear_auth_cookies()
+                    CookieService.clear_auth_cookies()
                     st.session_state.logged_in = False
             else:
                 st.session_state.logged_in = False
@@ -29,7 +29,7 @@ class AuthService:
     def login(username: str, password: str) -> bool:
         try:
             response = requests.post(
-                f"{APIConfig().BASE_URL}/api/v0/auth/login", params={"username": username, "password": password}
+                f"{APIConfig().BASE_URL}/api/v0/auth/login", json={"username": username, "password": password}
             )
 
             if response.status_code == 200:
@@ -37,7 +37,7 @@ class AuthService:
                 token_data["username"] = username
                 st.session_state.logged_in = True
                 st.session_state.username = username
-                AuthCookieService.set_auth_cookies(token_data)
+                CookieService.set_auth_cookies(token_data)
                 st.session_state.login_error = ""
                 return True
             else:
@@ -58,7 +58,7 @@ class AuthService:
 
         try:
             response = requests.post(
-                f"{APIConfig().BASE_URL}/api/v0/auth/signup", params={"username": username, "password": password}
+                f"{APIConfig().BASE_URL}/api/v0/auth/signup", json={"username": username, "password": password}
             )
 
             if response.status_code == 201:
@@ -77,24 +77,21 @@ class AuthService:
 
     @staticmethod
     def logout():
-        """Function to handle logout"""
         st.session_state.logged_in = False
-        AuthCookieService.clear_auth_cookies()
-        st.success("Successfully logged out!")
+        CookieService.clear_auth_cookies()
         st.rerun()
 
     @staticmethod
     def make_authenticated_request(method: str, url: str, **kwargs):
-        headers = AuthCookieService.get_auth_headers()
+        headers = CookieService.get_auth_headers()
         if "headers" in kwargs:
             headers.update(kwargs["headers"])
         kwargs["headers"] = headers
 
         try:
             response = requests.request(method, url, **kwargs)
-            if response.status_code == 401:  # Unauthorized
-                # Здесь можно добавить логику обновления токена
-                AuthCookieService.clear_auth_cookies()
+            if response.status_code == 401:
+                CookieService.clear_auth_cookies()
                 st.session_state.logged_in = False
             return response
         except requests.exceptions.RequestException as e:
