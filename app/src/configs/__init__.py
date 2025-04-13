@@ -1,3 +1,3 @@
-from .api_config import APIConfig
-from .auth_config import AuthConfig
-from .home_config import HomeConfig
+from .api import APIConfig
+from .auth import AuthConfig
+from .home import HomeConfig

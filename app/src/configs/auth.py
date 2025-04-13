@@ -1,6 +1,5 @@
-from configs.api_config import APIConfig
-from pydantic import Field
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from configs.api import APIConfig
+from pydantic_settings import BaseSettings
 
 
 class AuthConfig(BaseSettings):
