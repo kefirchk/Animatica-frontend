@@ -1,10 +1,12 @@
 import requests
 import streamlit as st
-from configs.api_config import APIConfig
+from configs.api import APIConfig
 from services.cookie import CookieService
 
 
 class AuthService:
+    api_config = APIConfig()
+
     @staticmethod
     def check_auth():
         if "logged_in" not in st.session_state:
@@ -25,11 +27,11 @@ class AuthService:
             else:
                 st.session_state.logged_in = False
 
-    @staticmethod
-    def login(username: str, password: str) -> bool:
+    @classmethod
+    def login(cls, username: str, password: str) -> bool:
         try:
             response = requests.post(
-                f"{APIConfig().BASE_URL}/api/v0/auth/login", json={"username": username, "password": password}
+                f"{cls.api_config.BASE_URL}/api/v0/auth/login", json={"username": username, "password": password}
             )
 
             if response.status_code == 200:
@@ -50,15 +52,15 @@ class AuthService:
             st.session_state.login_error = f"Connection error: {str(e)}"
             return False
 
-    @staticmethod
-    def register(username: str, password: str, confirm_password: str) -> bool:
+    @classmethod
+    def register(cls, username: str, password: str, confirm_password: str) -> bool:
         if password != confirm_password:
             st.session_state.register_error = "Passwords don't match"
             return False
 
         try:
             response = requests.post(
-                f"{APIConfig().BASE_URL}/api/v0/auth/signup", json={"username": username, "password": password}
+                f"{cls.api_config.BASE_URL}/api/v0/auth/signup", json={"username": username, "password": password}
             )
 
             if response.status_code == 201:
