@@ -2,58 +2,44 @@ import time
 
 import streamlit as st
 from configs import APIConfig
+from configs.pricing import PricingConfig
 from services.auth import AuthService
 from services.cookie import CookieService
+from services.payment import PaymentService
 
 
 class PricingRender:
     def __init__(self, templates: dict):
         self.templates = templates
         self.auth_service = AuthService()
+        self.payment_service = PaymentService()
         self.cookie = CookieService.controller
         self.api_config = APIConfig()
+        self.pricing_config = PricingConfig()
         self._init_session_state()
         self._handle_payment_callback()
         self.stripe_public_key, self.products = self._load_products()
 
     @staticmethod
     def _init_session_state():
-        if "selected_product_id" not in st.session_state:
-            st.session_state.selected_product_id = None
-        if "selected_price_id" not in st.session_state:
-            st.session_state.selected_price_id = None
+        st.session_state.setdefault("selected_product_id", None)
+        st.session_state.setdefault("selected_price_id", None)
 
     def _handle_payment_callback(self):
         def reload():
             st.query_params.clear()
-            time.sleep(3)
+            time.sleep(self.pricing_config.MESSAGE_DELAY)
             st.rerun()
 
         if st.query_params.get("success") == "true":
             st.success("✅ Payment was successful! Thank you for your purchase!")
             if self.cookie.get("session_id") and self.cookie.get("product_id"):
-                self._handle_successful_payment()
+                self.payment_service.make_payment()
                 reload()
 
         elif st.query_params.get("canceled") == "true":
             st.warning("❌ Payment canceled")
             reload()
-
-    def _handle_successful_payment(self):
-        response = self.auth_service.make_authenticated_request(
-            "POST",
-            f"{self.api_config.BASE_URL}/api/v0/payments",
-            json={
-                "session_id": self.cookie.get("session_id"),
-                "product_id": self.cookie.get("product_id"),
-            },
-        )
-        if response.status_code == 200:
-            data = response.json()
-            self.cookie.set("query_balance", data["remaining_queries"], max_age=31556925)
-        else:
-            st.error(f"Payment failed: {response.json()}")
-            time.sleep(3)
 
     def _load_products(self):
         response = self.auth_service.make_authenticated_request(

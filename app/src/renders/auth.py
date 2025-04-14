@@ -12,12 +12,9 @@ class AuthRender:
 
     @staticmethod
     def _init_session_state():
-        if "login_error" not in st.session_state:
-            st.session_state.login_error = ""
-        if "register_error" not in st.session_state:
-            st.session_state.register_error = ""
-        if "register_success" not in st.session_state:
-            st.session_state.register_success = ""
+        st.session_state.setdefault("login_error", "")
+        st.session_state.setdefault("register_error", "")
+        st.session_state.setdefault("register_success", "")
 
     def render_login_form(self):
         with st.form("login_form"):
