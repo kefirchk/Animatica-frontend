@@ -22,6 +22,7 @@ def render_sidebar():
                 type="primary",
                 use_container_width=True,
                 key="sidebar_logout",
+                icon=":material/logout:",
             ):
                 AuthService.logout()
 

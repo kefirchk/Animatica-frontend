@@ -15,7 +15,6 @@ templates = {
 }
 
 st.markdown(templates["header"], unsafe_allow_html=True)
-
 render = PricingRender(templates)
 
 if not render.products:
