@@ -14,13 +14,6 @@
     margin: 0 auto;
 }
 
-.forms-wrapper {
-    display: flex;
-    gap: 30px;
-    perspective: 1000px;
-    align-items: stretch;
-}
-
 .auth-column {
     flex: 1;
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -62,14 +55,6 @@
     font-size: 1rem;
 }
 
-.auth-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    height: 100%;
-}
-
-/* Стили для полей ввода */
 .stTextInput>div>div>input,
 .stTextInput>div>div>input:focus {
     width: 100%;
@@ -87,7 +72,6 @@
     box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
 }
 
-/* Стили для кнопок */
 .stButton>button {
     width: 100%;
     padding: 12px;
@@ -103,13 +87,6 @@
 
 .stButton>button:hover {
     background-color: var(--secondary);
-}
-
-/* Сообщения */
-.stAlert {
-    font-size: 0.9rem;
-    text-align: center;
-    border-radius: var(--radius);
 }
 
 @media (max-width: 768px) {

@@ -25,121 +25,6 @@
     font-weight: 400;
 }
 
-.input-section {
-    background: white;
-    border-radius: var(--radius);
-    padding: 25px;
-    margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    border: 1px solid rgba(0,0,0,0.05);
-}
-
-.section-title {
-    color: var(--dark);
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-    font-weight: 500;
-}
-
-.text-input {
-    width: 100%;
-    padding: 12px 15px;
-    border-radius: var(--radius);
-    border: 1px solid rgba(0,0,0,0.1);
-    font-size: 1rem;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
-}
-
-.text-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
-}
-
-.divider {
-    text-align: center;
-    margin: 25px 0;
-    position: relative;
-    color: rgba(0,0,0,0.4);
-    font-weight: 500;
-    font-size: 1rem;
-}
-
-.divider:before, .divider:after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 45%;
-    height: 1px;
-    background: rgba(0,0,0,0.1);
-}
-
-.divider:before {
-    left: 0;
-}
-
-.divider:after {
-    right: 0;
-}
-
-.upload-container {
-    position: relative;
-}
-
-.upload-area {
-    border: 2px dashed rgba(0,0,0,0.1);
-    border-radius: var(--radius);
-    padding: 30px;
-    text-align: center;
-    margin: 15px 0;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.upload-area:hover {
-    border-color: var(--primary);
-    background: rgba(67, 97, 238, 0.03);
-}
-
-.upload-icon {
-    font-size: 2.5rem;
-    color: var(--primary);
-    margin-bottom: 10px;
-}
-
-.upload-text {
-    color: var(--dark);
-    margin-bottom: 5px;
-}
-
-.upload-hint {
-    color: rgba(0,0,0,0.5);
-    font-size: 0.9rem;
-}
-
-.preview-image {
-    max-width: 100%;
-    max-height: 300px;
-    border-radius: var(--radius);
-    margin-top: 15px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.generate-btn {
-    width: 100%;
-    padding: 12px;
-    font-size: 1.1rem;
-    border-radius: var(--radius);
-}
-
-.result-container {
-    margin-top: 30px;
-    text-align: center;
-}
-
 @media (max-width: 768px) {
     .generation-header h1 {
         font-size: 2rem;
@@ -148,10 +33,6 @@
     .generation-header h3 {
         font-size: 1.1rem;
     }
-}
-.generation-header {
-    text-align: center;
-    margin-bottom: 30px;
 }
 
 .subscription-required {
@@ -197,6 +78,18 @@
     min-width: 180px;
 }
 
-.trial-btn {
-    min-width: 180px;
+div[data-testid="stFileUploader"] {
+    background-color: #f0f4ff;
+    border: 2px dashed #1E90FF;
+    padding: 1em;
+    border-radius: 12px;
+    color: #1E90FF;
+    text-align: center;
+    transition: 0.3s;
+    margin-bottom: 1rem;
+}
+
+div[data-testid="stFileUploader"]:hover {
+    border-color: #104E8B;
+    background-color: #e6efff;
 }
