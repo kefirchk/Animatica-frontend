@@ -11,7 +11,7 @@ class AnimationService:
         try:
             response = self.auth_service.make_authenticated_request(
                 "POST",
-                f"{self.api_url}/api/v0/animation/generate",
+                f"{self.api_url}/api/v0/animation/video",
                 files=files,
                 timeout=300,
             )
