@@ -15,7 +15,7 @@ render = HomeRender(templates)
 query_balance = CookieService.controller.get("query_balance")
 
 # Check subscription
-if query_balance is None or query_balance == 0:
+if (query_balance is None or query_balance == 0) and not st.session_state.animation_result:
     render.render_subscription_required()
 else:
     st.markdown(templates["header"], unsafe_allow_html=True)
