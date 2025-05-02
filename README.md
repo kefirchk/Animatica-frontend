@@ -6,8 +6,6 @@ image-to-video conversion, and post-processing.
 
 ## Deploying on Local
 
-### Setting up the environment
-
 #### Step 1: Create a virtual environment
 
 ###### *Linux/macOS:*
