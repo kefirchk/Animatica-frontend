@@ -1,33 +1,14 @@
 # Animatica-frontend
 
-## Table of Contents
-
-- [Overview](#overview)
-- [Requirements](#requirements)
-- [Deploying on Local](#deploying-on-local)
-- [Deploying via Docker](#deploying-via-docker)
-
-
-## Overview
-
 ***Animatica*** is my diploma project that generates videos from text and 
 images using neural networks. It automates animation creation with image generation,
 image-to-video conversion, and post-processing.
 
-
-## Requirements⚠️
-
-- Python 3.8+
-- PyTorch
-- Streamlit
-- Docker (for deployment through containers)
-
-
 ## Deploying on Local
 
-**Step 1.**
+### Setting up the environment
 
-Create a virtual environment.
+#### Step 1: Create a virtual environment
 
 ###### *Linux/macOS:*
 
@@ -43,13 +24,23 @@ python -m venv venv
 source venv/Scripts/activate
 ```
 
-**Step 2.**
+#### Step 2: Install requirements
 
 ```bash
-pip install -r app/requirements.txt
+cd app
+pip install -r requirements.txt
 ```
 
-**Step 3.**
+#### Step 3: Create env files
+
+```bash
+# env/api.env
+
+API_URL=http://localhost:8080
+TERMS_OF_SERVICE_URL=https://example.com/terms
+```
+
+#### Step 4: Run server
 
 ```bash
 cd app
