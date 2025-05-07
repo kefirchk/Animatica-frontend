@@ -3,11 +3,11 @@ from services.auth import AuthService
 
 
 class AnimationService:
-    def __init__(self):
+    def __init__(self) -> None:
         self.api_url = APIConfig().BASE_URL
         self.auth_service = AuthService()
 
-    def generate_animation(self, files: dict):
+    def generate_animation(self, files: dict) -> dict:
         try:
             response = self.auth_service.make_authenticated_request(
                 "POST",
