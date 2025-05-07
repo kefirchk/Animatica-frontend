@@ -6,10 +6,11 @@ from configs.pricing import PricingConfig
 from services.auth import AuthService
 from services.cookie import CookieService
 from services.payment import PaymentService
+from streamlit.delta_generator import DeltaGenerator
 
 
 class PricingRender:
-    def __init__(self, templates: dict):
+    def __init__(self, templates: dict) -> None:
         self.templates = templates
         self.auth_service = AuthService()
         self.payment_service = PaymentService()
@@ -21,11 +22,11 @@ class PricingRender:
         self.stripe_public_key, self.products = self._load_products()
 
     @staticmethod
-    def _init_session_state():
+    def _init_session_state() -> None:
         st.session_state.setdefault("selected_product_id", None)
         st.session_state.setdefault("selected_price_id", None)
 
-    def _handle_payment_callback(self):
+    def _handle_payment_callback(self) -> None:
         def reload():
             st.query_params.clear()
             time.sleep(self.pricing_config.MESSAGE_DELAY)
@@ -41,19 +42,19 @@ class PricingRender:
             st.warning("❌ Payment canceled")
             reload()
 
-    def _load_products(self):
+    def _load_products(self) -> tuple[str, list]:
         response = self.auth_service.make_authenticated_request(
             "GET", f"{self.api_config.BASE_URL}/api/v0/subscriptions/limited"
         )
         data = response.json()
         return data.get("public_key"), data.get("data", [])
 
-    def _select_product(self, product_id: str, price_id: str):
+    def _select_product(self, product_id: str, price_id: str) -> None:
         st.session_state.selected_product_id = product_id
         st.session_state.selected_price_id = price_id
         self.cookie.set("price_id", price_id, max_age=31556925)
 
-    def render_plan_card(self, product, col):
+    def render_plan_card(self, product: dict, col: DeltaGenerator) -> None:
         with col:
             product_id = product["id"]
             price_id = product["default_price"]["id"]
@@ -87,7 +88,7 @@ class PricingRender:
                 unsafe_allow_html=True,
             )
 
-    def render_subscribe_button(self, selected_product):
+    def render_subscribe_button(self, selected_product: dict) -> None:
         st.markdown(
             self.templates["selection"].format(selected_plan=selected_product["name"]),
             unsafe_allow_html=True,
