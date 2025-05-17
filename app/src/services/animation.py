@@ -13,7 +13,7 @@ class AnimationService:
                 "POST",
                 f"{self.api_url}/api/v0/animation/video",
                 files=files,
-                timeout=300,
+                timeout=1200,
             )
             response.raise_for_status()
             return {"success": True, "animation_data": response.content, "message": "OK"}
