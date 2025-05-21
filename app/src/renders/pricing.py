@@ -46,8 +46,10 @@ class PricingRender:
         response = self.auth_service.make_authenticated_request(
             "GET", f"{self.api_config.BASE_URL}/api/v0/subscriptions/limited"
         )
-        data = response.json()
-        return data.get("public_key"), data.get("data", [])
+        if response.status_code == 200:
+            data = response.json()
+            return data.get("public_key", ""), data.get("data", [])
+        return "", []
 
     def _select_product(self, product_id: str, price_id: str) -> None:
         st.session_state.selected_product_id = product_id

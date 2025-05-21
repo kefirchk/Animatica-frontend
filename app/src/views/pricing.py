@@ -3,6 +3,7 @@ import time
 import streamlit as st
 from renders.pricing import PricingRender
 from services.auth import AuthService
+from services.cookie import CookieService
 from services.resource import ResourceService
 
 # Load styles and templates
@@ -19,15 +20,13 @@ render = PricingRender(templates)
 
 if not render.products:
     st.warning("No subscription plans available.")
-    time.sleep(3)
-    AuthService.logout()
+else:
+    with st.container():
+        cols = st.columns(len(render.products))
+        for col, product in zip(cols, render.products):
+            render.render_plan_card(product, col)
 
-with st.container():
-    cols = st.columns(len(render.products))
-    for col, product in zip(cols, render.products):
-        render.render_plan_card(product, col)
-
-if st.session_state.selected_product_id and st.session_state.selected_price_id:
-    selected_product = next((p for p in render.products if p["id"] == st.session_state.selected_product_id), None)
-    if selected_product:
-        render.render_subscribe_button(selected_product)
+    if st.session_state.selected_product_id and st.session_state.selected_price_id:
+        selected_product = next((p for p in render.products if p["id"] == st.session_state.selected_product_id), None)
+        if selected_product:
+            render.render_subscribe_button(selected_product)
