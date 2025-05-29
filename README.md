@@ -45,6 +45,9 @@ cd app
 streamlit run src/main.py
 ```
 
+## System Design
+
+![system design](docs/animatica-frontend-design-diagram.png)
 
 ## Deploying via Docker
 
